@@ -86,7 +86,7 @@ namespace SingleResponsibilityPrinciple.Tests
 
 
         [TestMethod]
-        public void TestTradeAmountBoounds()
+        public void TestTradeAmountBounds()
         {
             // Arrange
             var tradeStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("SingleResponsibilityPrincipleTests.tradesBounds.txt");
