@@ -24,6 +24,22 @@ namespace SingleResponsibilityPrinciple
             return tradeData;
         }
 
+        private IEnumerable<string> ReadURLTradeData(String url)
+        {
+            var tradeData = new List<string>();
+            var client = new WebClient();
+            using (var stream = client.OpenRead(url))
+            using (var reader = new StreamReader(stream))
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    tradeData.Add(line);
+                }
+            }
+            return tradeData;
+        }
+
         private IEnumerable<TradeRecord> ParseTrades(IEnumerable<string> tradeData)
         {
             var trades = new List<TradeRecord>();
@@ -142,13 +158,18 @@ namespace SingleResponsibilityPrinciple
             LogMessage("INFO", "  {0} trades processed", trades.Count());
         }
 
-        public void ProcessTrades(Stream stream)
+        public void ProcessTradesStream(Stream stream)
         {
             var lines = ReadTradeData(stream);
             var trades = ParseTrades(lines);
             StoreTrades(trades);
         }
 
-
+        public void ProcessTradesURL(String url)
+        {
+            var lines = ReadURLTradeData(url);
+            var tradedata = ParseTrades(lines);
+            StoreTrades(tradedata);
+        }
     }
 }
